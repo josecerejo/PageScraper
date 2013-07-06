@@ -24,7 +24,6 @@ namespace ForeclosureDataRetriever
 
             BaseCOJURL += txtCOJURL.Text;
             COJScraper HouseDetails = new COJScraper(BaseCOJURL);
-
             HouseDetails.ScrapePage();
             DisplayHouseDetails(HouseDetails);
         }
