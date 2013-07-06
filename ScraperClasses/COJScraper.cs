@@ -17,7 +17,6 @@ namespace ForeclosureDataRetriever
         private string Bathrooms;
         private string SqFt;
         private string YrBuilt;
-        private string COJURL;
         #endregion
 
         #region public integers

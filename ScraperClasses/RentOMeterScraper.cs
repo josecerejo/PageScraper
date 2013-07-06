@@ -15,7 +15,6 @@ namespace ForeclosureDataRetriever
         #region private strings
         private string Min;
         private string Max;
-        private string RentURL;
         #endregion
 
         #region public integers
