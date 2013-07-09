@@ -32,8 +32,17 @@ namespace ForeclosureDataRetriever
 
         private void btnSendAddress_Click(object sender, EventArgs e)
         {
+            //test value: 1451430140
             webBrowser.Document.GetElementById("address_field").InnerText
                 = lbl_Address.Text + " 32216";
+            webBrowser.Document.GetElementById("latitude").InnerText = "30.269263";
+            webBrowser.Document.GetElementById("longitude").InnerText = "-81.57560539999997";
+
+            webBrowser.Document.GetElementById("beds").SetAttribute("value", lbl_Bed.Text);
+
+            HtmlElement form = webBrowser.Document.GetElementById("search_form");
+            if (form != null)
+                form.InvokeMember("submit");
 
             btnGetRentDetails.Enabled = true;
         }
