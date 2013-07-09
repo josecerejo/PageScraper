@@ -59,6 +59,7 @@
             this.btnGetRentDetails = new System.Windows.Forms.Button();
             this.btnCopyClipboard = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
+            this.btnLoadTaxRecord = new System.Windows.Forms.Button();
             this.panel_Results.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -101,9 +102,9 @@
             this.panel_Results.Controls.Add(this.lblBed);
             this.panel_Results.Controls.Add(this.lblMax);
             this.panel_Results.Controls.Add(this.lblMin);
-            this.panel_Results.Location = new System.Drawing.Point(338, 12);
+            this.panel_Results.Location = new System.Drawing.Point(17, 132);
             this.panel_Results.Name = "panel_Results";
-            this.panel_Results.Size = new System.Drawing.Size(387, 114);
+            this.panel_Results.Size = new System.Drawing.Size(379, 114);
             this.panel_Results.TabIndex = 4;
             // 
             // lbl_Rge1
@@ -305,7 +306,7 @@
             // btnSendAddress
             // 
             this.btnSendAddress.Enabled = false;
-            this.btnSendAddress.Location = new System.Drawing.Point(138, 70);
+            this.btnSendAddress.Location = new System.Drawing.Point(336, 11);
             this.btnSendAddress.Name = "btnSendAddress";
             this.btnSendAddress.Size = new System.Drawing.Size(60, 50);
             this.btnSendAddress.TabIndex = 6;
@@ -326,10 +327,10 @@
             // 
             // webBrowser
             // 
-            this.webBrowser.Location = new System.Drawing.Point(17, 132);
+            this.webBrowser.Location = new System.Drawing.Point(402, 11);
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser.Name = "webBrowser";
-            this.webBrowser.Size = new System.Drawing.Size(708, 349);
+            this.webBrowser.Size = new System.Drawing.Size(567, 474);
             this.webBrowser.TabIndex = 8;
             this.webBrowser.Url = new System.Uri("", System.UriKind.Relative);
             // 
@@ -347,7 +348,7 @@
             // btnGetRentDetails
             // 
             this.btnGetRentDetails.Enabled = false;
-            this.btnGetRentDetails.Location = new System.Drawing.Point(204, 70);
+            this.btnGetRentDetails.Location = new System.Drawing.Point(138, 70);
             this.btnGetRentDetails.Name = "btnGetRentDetails";
             this.btnGetRentDetails.Size = new System.Drawing.Size(60, 50);
             this.btnGetRentDetails.TabIndex = 10;
@@ -357,7 +358,6 @@
             // 
             // btnCopyClipboard
             // 
-            this.btnCopyClipboard.Enabled = false;
             this.btnCopyClipboard.Location = new System.Drawing.Point(270, 70);
             this.btnCopyClipboard.Name = "btnCopyClipboard";
             this.btnCopyClipboard.Size = new System.Drawing.Size(60, 50);
@@ -368,7 +368,6 @@
             // 
             // btnClear
             // 
-            this.btnClear.Enabled = false;
             this.btnClear.Location = new System.Drawing.Point(17, 70);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(104, 50);
@@ -377,11 +376,23 @@
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
+            // btnLoadTaxRecord
+            // 
+            this.btnLoadTaxRecord.Enabled = false;
+            this.btnLoadTaxRecord.Location = new System.Drawing.Point(204, 70);
+            this.btnLoadTaxRecord.Name = "btnLoadTaxRecord";
+            this.btnLoadTaxRecord.Size = new System.Drawing.Size(60, 50);
+            this.btnLoadTaxRecord.TabIndex = 13;
+            this.btnLoadTaxRecord.Text = "Load Tax Record";
+            this.btnLoadTaxRecord.UseVisualStyleBackColor = true;
+            this.btnLoadTaxRecord.Click += new System.EventHandler(this.btnTaxRecord_Click);
+            // 
             // Foreclosure
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(737, 497);
+            this.ClientSize = new System.Drawing.Size(981, 497);
+            this.Controls.Add(this.btnLoadTaxRecord);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnCopyClipboard);
             this.Controls.Add(this.btnGetRentDetails);
@@ -394,7 +405,9 @@
             this.Controls.Add(this.txtCOJURL);
             this.Controls.Add(this.lblCOJ);
             this.Name = "Foreclosure";
-            this.Text = "Form1";
+            this.Text = "Foreclosure Web Scraper";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Resize += new System.EventHandler(this.Foreclosure_Resize);
             this.panel_Results.ResumeLayout(false);
             this.panel_Results.PerformLayout();
             this.ResumeLayout(false);
@@ -435,6 +448,7 @@
         private System.Windows.Forms.Button btnGetRentDetails;
         private System.Windows.Forms.Button btnCopyClipboard;
         private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Button btnLoadTaxRecord;
     }
 }
 

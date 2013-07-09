@@ -13,18 +13,19 @@ namespace ForeclosureDataRetriever
 {
     public partial class Foreclosure : Form
     {
-        private string BaseCOJURL;
+        private string NavigateLink;
+        private string COJRootLink;        
 
         public Foreclosure()
         {
             InitializeComponent();
-            BaseCOJURL = "http://apps.coj.net/PAO_PROPERTYSEARCH/Basic/Detail.aspx?RE=";
+            COJRootLink = "http://apps.coj.net/PAO_PROPERTYSEARCH/Basic/Detail.aspx?RE=";
         }
 
         private void btnLoadCOJ_Click(object sender, EventArgs e)
         {
-            BaseCOJURL += txtCOJURL.Text;
-            webBrowser.Navigate(new Uri(BaseCOJURL));
+            NavigateLink = COJRootLink + txtCOJURL.Text;
+            webBrowser.Navigate(new Uri(NavigateLink));
 
             btnGetHouseDetails.Enabled = true;
         }
@@ -57,7 +58,7 @@ namespace ForeclosureDataRetriever
 
         private void btnGetHouseDetails_Click(object sender, EventArgs e)
         {
-            COJScraper HouseDetails = new COJScraper(BaseCOJURL);
+            COJScraper HouseDetails = new COJScraper(NavigateLink);
 
             HouseDetails.ScrapePage();
             DisplayHouseDetails(HouseDetails);
@@ -67,8 +68,8 @@ namespace ForeclosureDataRetriever
 
         private void btnLoadRentMeter_Click(object sender, EventArgs e)
         {
-            BaseCOJURL = "https://www.rentometer.com/";
-            webBrowser.Navigate(new Uri(BaseCOJURL));
+            NavigateLink = "https://www.rentometer.com/";
+            webBrowser.Navigate(new Uri(NavigateLink));
 
             btnSendAddress.Enabled = true;
         }
@@ -79,7 +80,7 @@ namespace ForeclosureDataRetriever
             RentDetails.ScrapePage();
             DisplayRentDetails(RentDetails);
 
-            btnCopyClipboard.Enabled = true;
+            btnLoadTaxRecord.Enabled = true;
         }
 
         private void btnCopyClipboard_Click(object sender, EventArgs e)
@@ -93,6 +94,20 @@ namespace ForeclosureDataRetriever
         private void btnClear_Click(object sender, EventArgs e)
         {
             //clear all data
+        }
+
+        private void btnTaxRecord_Click(object sender, EventArgs e)
+        {
+            NavigateLink = "http://apps.coj.net/pao_propertySearch/Leaving.aspx?Destination=PTR&RE=" + txtCOJURL.Text;
+            webBrowser.Navigate(new Uri(NavigateLink));
+
+            btnCopyClipboard.Enabled = true;
+        }
+
+        private void Foreclosure_Resize(object sender, EventArgs e)
+        {
+            webBrowser.Width = this.Width - webBrowser.Location.X - 20;
+            webBrowser.Height = this.Height - webBrowser.Location.Y - 10;
         }
     }
 }
