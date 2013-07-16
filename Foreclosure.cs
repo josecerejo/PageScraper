@@ -13,43 +13,76 @@ namespace ForeclosureDataRetriever
 {
     public partial class Foreclosure : Form
     {
+        private List<string> RootLinks { get; set; }
         private string NavigateLink;
-        private string COJRootLink;        
 
         public Foreclosure()
         {
             InitializeComponent();
-            COJRootLink = "http://apps.coj.net/PAO_PROPERTYSEARCH/Basic/Detail.aspx?RE=";
+            RootLinks = new List<string>(){
+                "http://apps.coj.net/PAO_PROPERTYSEARCH/Basic/Detail.aspx?RE=",
+                "http://apps.coj.net/pao_propertySearch/Leaving.aspx?Destination=PTR&RE=",
+                "https://www.rentometer.com/"};
         }
 
         private void btnLoadCOJ_Click(object sender, EventArgs e)
         {
-            NavigateLink = COJRootLink + txtCOJURL.Text;
-            webBrowser.Navigate(new Uri(NavigateLink));
-
-            btnGetHouseDetails.Enabled = true;
+            NavigateLink = RootLinks[0] + txtCOJURL.Text;
+            BrowserWindow.Navigate(new Uri(NavigateLink));
+            this.BrowserWindow.DocumentCompleted += 
+                new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(COJLinkLoaded);
         }
 
-        private void btnSendAddress_Click(object sender, EventArgs e)
+        private void COJLinkLoaded(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            //test value: 1451430140
-            webBrowser.Document.GetElementById("address_field").InnerText
-                = lbl_Address.Text + " 32216";
-            webBrowser.Document.GetElementById("latitude").InnerText = "30.269263";
-            webBrowser.Document.GetElementById("longitude").InnerText = "-81.57560539999997";
+            if (e.Url.AbsolutePath != (sender as WebBrowser).Url.AbsolutePath)
+            {
+                return;
+            }
+            
+            COJScraper HouseDetails = new COJScraper(NavigateLink);
 
-            webBrowser.Document.GetElementById("beds").SetAttribute("value", lbl_Bed.Text);
+            HouseDetails.ScrapePage();
+            DisplayHouseDetails(HouseDetails);
 
-            HtmlElement form = webBrowser.Document.GetElementById("search_form");
+            this.BrowserWindow.DocumentCompleted -= 
+                new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(COJLinkLoaded);
+        }
+
+        private void RentMeterLinkLoaded(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            if (e.Url.AbsolutePath != (sender as WebBrowser).Url.AbsolutePath)
+            {
+                return;
+            }
+
+            this.BrowserWindow.Document.GetElementById("address_field").GotFocus +=
+                new HtmlElementEventHandler(SendRentOMeterInfo);
+
+            this.BrowserWindow.DocumentCompleted -=
+                new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(RentMeterLinkLoaded);
+            }
+
+        private void SendRentOMeterInfo(object sender, HtmlElementEventArgs e)
+        {
+            BrowserWindow.Document.GetElementById("address_field").InnerText = lbl_Address.Text + " 32216";
+            
+            BrowserWindow.Document.GetElementById("latitude").InnerText = "30.269263";
+            BrowserWindow.Document.GetElementById("longitude").InnerText = "-81.57560539999997";
+
+            BrowserWindow.Document.GetElementById("beds").SetAttribute("value", lbl_Bed.Text);
+
+            HtmlElement form = BrowserWindow.Document.GetElementById("search_form");
+
             if (form != null)
+            {
                 form.InvokeMember("submit");
-
-            btnGetRentDetails.Enabled = true;
+            }
         }
 
         private void DisplayHouseDetails(COJScraper details)
         {
-            lbl_Address.Text = webBrowser.Document.GetElementById("ctl00_cphBody_lblPrimarySiteAddressLine1").InnerText;
+            lbl_Address.Text = BrowserWindow.Document.GetElementById("ctl00_cphBody_lblPrimarySiteAddressLine1").InnerText;
             lbl_Bed.Text = details.iBedrooms.ToString();
             lbl_Bath.Text = details.iBathrooms.ToString();
             lbl_SqFt.Text = details.iSqFt.ToString();
@@ -65,27 +98,17 @@ namespace ForeclosureDataRetriever
             lbl_Rge2.Text = details.iHighPricedRange;
         }
 
-        private void btnGetHouseDetails_Click(object sender, EventArgs e)
-        {
-            COJScraper HouseDetails = new COJScraper(NavigateLink);
-
-            HouseDetails.ScrapePage();
-            DisplayHouseDetails(HouseDetails);
-
-            btnLoadRentMeter.Enabled = true;
-        }
-
         private void btnLoadRentMeter_Click(object sender, EventArgs e)
         {
-            NavigateLink = "https://www.rentometer.com/";
-            webBrowser.Navigate(new Uri(NavigateLink));
+            BrowserWindow.Navigate(new Uri(RootLinks[2]));
 
-            btnSendAddress.Enabled = true;
+            this.BrowserWindow.DocumentCompleted +=
+                new WebBrowserDocumentCompletedEventHandler(RentMeterLinkLoaded);
         }
 
         private void btnGetRentDetails_Click(object sender, EventArgs e)
         {
-            RentOMeterScraper RentDetails = new RentOMeterScraper(webBrowser.Url.AbsoluteUri);
+            RentOMeterScraper RentDetails = new RentOMeterScraper(BrowserWindow.Url.AbsoluteUri);
             RentDetails.ScrapePage();
             DisplayRentDetails(RentDetails);
 
@@ -108,15 +131,15 @@ namespace ForeclosureDataRetriever
         private void btnTaxRecord_Click(object sender, EventArgs e)
         {
             NavigateLink = "http://apps.coj.net/pao_propertySearch/Leaving.aspx?Destination=PTR&RE=" + txtCOJURL.Text;
-            webBrowser.Navigate(new Uri(NavigateLink));
+            BrowserWindow.Navigate(new Uri(NavigateLink));
 
             btnCopyClipboard.Enabled = true;
         }
 
         private void Foreclosure_Resize(object sender, EventArgs e)
         {
-            webBrowser.Width = this.Width - webBrowser.Location.X - 20;
-            webBrowser.Height = this.Height - webBrowser.Location.Y - 10;
+            BrowserWindow.Width = this.Width - BrowserWindow.Location.X - 20;
+            BrowserWindow.Height = this.Height - BrowserWindow.Location.Y - 10;
         }
     }
 }

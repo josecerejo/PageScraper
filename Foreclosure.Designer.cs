@@ -52,9 +52,7 @@
             this.lblMax = new System.Windows.Forms.Label();
             this.lblMin = new System.Windows.Forms.Label();
             this.btnLoadCOJ = new System.Windows.Forms.Button();
-            this.btnSendAddress = new System.Windows.Forms.Button();
-            this.btnGetHouseDetails = new System.Windows.Forms.Button();
-            this.webBrowser = new System.Windows.Forms.WebBrowser();
+            this.BrowserWindow = new System.Windows.Forms.WebBrowser();
             this.btnLoadRentMeter = new System.Windows.Forms.Button();
             this.btnGetRentDetails = new System.Windows.Forms.Button();
             this.btnCopyClipboard = new System.Windows.Forms.Button();
@@ -79,6 +77,7 @@
             this.txtCOJURL.Name = "txtCOJURL";
             this.txtCOJURL.Size = new System.Drawing.Size(104, 20);
             this.txtCOJURL.TabIndex = 2;
+            this.txtCOJURL.Text = "1451430140";
             // 
             // panel_Results
             // 
@@ -303,40 +302,17 @@
             this.btnLoadCOJ.UseVisualStyleBackColor = true;
             this.btnLoadCOJ.Click += new System.EventHandler(this.btnLoadCOJ_Click);
             // 
-            // btnSendAddress
+            // BrowserWindow
             // 
-            this.btnSendAddress.Enabled = false;
-            this.btnSendAddress.Location = new System.Drawing.Point(336, 11);
-            this.btnSendAddress.Name = "btnSendAddress";
-            this.btnSendAddress.Size = new System.Drawing.Size(60, 50);
-            this.btnSendAddress.TabIndex = 6;
-            this.btnSendAddress.Text = "Send Details";
-            this.btnSendAddress.UseVisualStyleBackColor = true;
-            this.btnSendAddress.Click += new System.EventHandler(this.btnSendAddress_Click);
-            // 
-            // btnGetHouseDetails
-            // 
-            this.btnGetHouseDetails.Enabled = false;
-            this.btnGetHouseDetails.Location = new System.Drawing.Point(204, 11);
-            this.btnGetHouseDetails.Name = "btnGetHouseDetails";
-            this.btnGetHouseDetails.Size = new System.Drawing.Size(60, 50);
-            this.btnGetHouseDetails.TabIndex = 7;
-            this.btnGetHouseDetails.Text = "Get House Details";
-            this.btnGetHouseDetails.UseVisualStyleBackColor = true;
-            this.btnGetHouseDetails.Click += new System.EventHandler(this.btnGetHouseDetails_Click);
-            // 
-            // webBrowser
-            // 
-            this.webBrowser.Location = new System.Drawing.Point(402, 11);
-            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser.Name = "webBrowser";
-            this.webBrowser.Size = new System.Drawing.Size(567, 474);
-            this.webBrowser.TabIndex = 8;
-            this.webBrowser.Url = new System.Uri("", System.UriKind.Relative);
+            this.BrowserWindow.Location = new System.Drawing.Point(402, 11);
+            this.BrowserWindow.MinimumSize = new System.Drawing.Size(20, 20);
+            this.BrowserWindow.Name = "BrowserWindow";
+            this.BrowserWindow.Size = new System.Drawing.Size(567, 474);
+            this.BrowserWindow.TabIndex = 8;
+            this.BrowserWindow.Url = new System.Uri("", System.UriKind.Relative);
             // 
             // btnLoadRentMeter
             // 
-            this.btnLoadRentMeter.Enabled = false;
             this.btnLoadRentMeter.Location = new System.Drawing.Point(270, 11);
             this.btnLoadRentMeter.Name = "btnLoadRentMeter";
             this.btnLoadRentMeter.Size = new System.Drawing.Size(60, 50);
@@ -347,7 +323,6 @@
             // 
             // btnGetRentDetails
             // 
-            this.btnGetRentDetails.Enabled = false;
             this.btnGetRentDetails.Location = new System.Drawing.Point(138, 70);
             this.btnGetRentDetails.Name = "btnGetRentDetails";
             this.btnGetRentDetails.Size = new System.Drawing.Size(60, 50);
@@ -397,9 +372,7 @@
             this.Controls.Add(this.btnCopyClipboard);
             this.Controls.Add(this.btnGetRentDetails);
             this.Controls.Add(this.btnLoadRentMeter);
-            this.Controls.Add(this.webBrowser);
-            this.Controls.Add(this.btnGetHouseDetails);
-            this.Controls.Add(this.btnSendAddress);
+            this.Controls.Add(this.BrowserWindow);
             this.Controls.Add(this.btnLoadCOJ);
             this.Controls.Add(this.panel_Results);
             this.Controls.Add(this.txtCOJURL);
@@ -427,9 +400,7 @@
         private System.Windows.Forms.Label lblMax;
         private System.Windows.Forms.Label lblMin;
         private System.Windows.Forms.Label lblYrBuilt;
-        private System.Windows.Forms.Button btnSendAddress;
-        private System.Windows.Forms.Button btnGetHouseDetails;
-        private System.Windows.Forms.WebBrowser webBrowser;
+        private System.Windows.Forms.WebBrowser BrowserWindow;
         private System.Windows.Forms.Label lbl_Address;
         private System.Windows.Forms.Label lbl_YrBuilt;
         private System.Windows.Forms.Label lbl_SqFt;
