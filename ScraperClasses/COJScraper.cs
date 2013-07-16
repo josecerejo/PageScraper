@@ -34,6 +34,7 @@ namespace ForeclosureDataRetriever
             iBathrooms = 0;
             iSqFt = 0;
             iYrBuilt = 0;
+            ScrapePage();
         }
 
         public override void ScrapePage()

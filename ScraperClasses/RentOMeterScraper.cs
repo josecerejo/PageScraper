@@ -36,6 +36,7 @@ namespace ForeclosureDataRetriever
             iMedian = 0;
             iModerateRange = "";
             iHighPricedRange = "";
+            ScrapePage();
         }
 
         public override void ScrapePage()

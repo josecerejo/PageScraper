@@ -51,7 +51,7 @@
             this.lblBed = new System.Windows.Forms.Label();
             this.lblMax = new System.Windows.Forms.Label();
             this.lblMin = new System.Windows.Forms.Label();
-            this.btnLoadCOJ = new System.Windows.Forms.Button();
+            this.btnStart = new System.Windows.Forms.Button();
             this.BrowserWindow = new System.Windows.Forms.WebBrowser();
             this.btnCopyClipboard = new System.Windows.Forms.Button();
             this.panel_Results.SuspendLayout();
@@ -159,7 +159,7 @@
             this.lbl_YrBuilt.Name = "lbl_YrBuilt";
             this.lbl_YrBuilt.Size = new System.Drawing.Size(0, 13);
             this.lbl_YrBuilt.TabIndex = 13;
-            this.lbl_YrBuilt.TextChanged += new System.EventHandler(this.LoadRentOMeterData);
+            this.lbl_YrBuilt.TextChanged += new System.EventHandler(this.LoadRentOMeterPage);
             // 
             // lbl_SqFt
             // 
@@ -289,15 +289,15 @@
             this.lblMin.TabIndex = 0;
             this.lblMin.Text = "Min:";
             // 
-            // btnLoadCOJ
+            // btnStart
             // 
-            this.btnLoadCOJ.Location = new System.Drawing.Point(138, 11);
-            this.btnLoadCOJ.Name = "btnLoadCOJ";
-            this.btnLoadCOJ.Size = new System.Drawing.Size(60, 50);
-            this.btnLoadCOJ.TabIndex = 5;
-            this.btnLoadCOJ.Text = "Load COJ";
-            this.btnLoadCOJ.UseVisualStyleBackColor = true;
-            this.btnLoadCOJ.Click += new System.EventHandler(this.btnLoadCOJ_Click);
+            this.btnStart.Location = new System.Drawing.Point(138, 11);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(60, 50);
+            this.btnStart.TabIndex = 5;
+            this.btnStart.Text = "Start Scraping";
+            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // BrowserWindow
             // 
@@ -325,7 +325,7 @@
             this.ClientSize = new System.Drawing.Size(981, 497);
             this.Controls.Add(this.btnCopyClipboard);
             this.Controls.Add(this.BrowserWindow);
-            this.Controls.Add(this.btnLoadCOJ);
+            this.Controls.Add(this.btnStart);
             this.Controls.Add(this.panel_Results);
             this.Controls.Add(this.txtCOJURL);
             this.Controls.Add(this.lblCOJ);
@@ -345,7 +345,7 @@
         private System.Windows.Forms.Label lblCOJ;
         private System.Windows.Forms.TextBox txtCOJURL;
         private System.Windows.Forms.Panel panel_Results;
-        private System.Windows.Forms.Button btnLoadCOJ;
+        private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.Label lblSqFt;
         private System.Windows.Forms.Label lblBath;
         private System.Windows.Forms.Label lblBed;

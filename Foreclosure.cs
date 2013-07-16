@@ -25,20 +25,20 @@ namespace ForeclosureDataRetriever
                 "https://www.rentometer.com/"};
         }
 
-        private void btnLoadCOJ_Click(object sender, EventArgs e)
+        private void btnStart_Click(object sender, EventArgs e)
         {
             NavigateLink = RootLinks[0] + txtCOJURL.Text;
             BrowserWindow.Navigate(new Uri(NavigateLink));
-            BrowserWindow.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(COJLinkLoaded);
+            BrowserWindow.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(ScrapeCOJAfterLoading);
         }
 
-        private void LoadRentOMeterData(object sender, EventArgs e)
+        private void LoadRentOMeterPage(object sender, EventArgs e)
         {
             BrowserWindow.Navigate(new Uri(RootLinks[2]));
             BrowserWindow.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(RentMeterLinkLoaded);
         }
 
-        private void COJLinkLoaded(object sender, WebBrowserDocumentCompletedEventArgs e)
+        private void ScrapeCOJAfterLoading(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             if (e.Url.AbsolutePath != (sender as WebBrowser).Url.AbsolutePath)
             {
@@ -46,12 +46,9 @@ namespace ForeclosureDataRetriever
             }
             
             COJScraper HouseDetails = new COJScraper(NavigateLink);
-
-            HouseDetails.ScrapePage();
             DisplayHouseDetails(HouseDetails);
 
-            this.BrowserWindow.DocumentCompleted -= 
-                new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(COJLinkLoaded);
+            BrowserWindow.DocumentCompleted -= new WebBrowserDocumentCompletedEventHandler(ScrapeCOJAfterLoading);
         }
 
         private void RentMeterLinkLoaded(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -61,11 +58,11 @@ namespace ForeclosureDataRetriever
                 return;
             }
 
-            this.BrowserWindow.Document.GetElementById("address_field").GotFocus +=
+            BrowserWindow.Document.GetElementById("address_field").GotFocus +=
                 new HtmlElementEventHandler(SetElementData);
 
-            this.BrowserWindow.DocumentCompleted -=
-                new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(RentMeterLinkLoaded);
+            BrowserWindow.DocumentCompleted -= 
+                new WebBrowserDocumentCompletedEventHandler(RentMeterLinkLoaded);
             }
 
         private void SetElementData(object sender, HtmlElementEventArgs e)
@@ -73,9 +70,15 @@ namespace ForeclosureDataRetriever
             BrowserWindow.Document.GetElementById("address_field").InnerText = lbl_Address.Text + " 32216";
             BrowserWindow.Document.GetElementById("latitude").InnerText = "30.269263";
             BrowserWindow.Document.GetElementById("longitude").InnerText = "-81.57560539999997";
-
             BrowserWindow.Document.GetElementById("beds").SetAttribute("value", lbl_Bed.Text);
 
+            SubmitFormData();
+
+            BrowserWindow.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(ScrapeRentDetails);
+        }
+
+        private void SubmitFormData()
+        {
             HtmlElement form = BrowserWindow.Document.GetElementById("search_form");
 
             if (form != null)
@@ -83,7 +86,7 @@ namespace ForeclosureDataRetriever
                 form.InvokeMember("submit");
             }
 
-            this.BrowserWindow.Document.GetElementById("address_field").GotFocus -=
+            BrowserWindow.Document.GetElementById("address_field").GotFocus -=
                 new HtmlElementEventHandler(SetElementData);
         }
 
@@ -95,12 +98,12 @@ namespace ForeclosureDataRetriever
             lbl_SqFt.Text = details.iSqFt.ToString();
             lbl_YrBuilt.Text = details.iYrBuilt.ToString();
         }
-        
-        private void ScrapeRentDetails(object sender, EventArgs e)
+
+        private void ScrapeRentDetails(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             RentOMeterScraper RentDetails = new RentOMeterScraper(BrowserWindow.Url.AbsoluteUri);
-            RentDetails.ScrapePage();
             DisplayRentDetails(RentDetails);
+            BrowserWindow.DocumentCompleted -= new WebBrowserDocumentCompletedEventHandler(ScrapeRentDetails);
         }
         
         private void DisplayRentDetails(RentOMeterScraper details)
