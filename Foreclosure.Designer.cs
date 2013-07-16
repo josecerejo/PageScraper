@@ -53,11 +53,7 @@
             this.lblMin = new System.Windows.Forms.Label();
             this.btnLoadCOJ = new System.Windows.Forms.Button();
             this.BrowserWindow = new System.Windows.Forms.WebBrowser();
-            this.btnLoadRentMeter = new System.Windows.Forms.Button();
-            this.btnGetRentDetails = new System.Windows.Forms.Button();
             this.btnCopyClipboard = new System.Windows.Forms.Button();
-            this.btnClear = new System.Windows.Forms.Button();
-            this.btnLoadTaxRecord = new System.Windows.Forms.Button();
             this.panel_Results.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -163,6 +159,7 @@
             this.lbl_YrBuilt.Name = "lbl_YrBuilt";
             this.lbl_YrBuilt.Size = new System.Drawing.Size(0, 13);
             this.lbl_YrBuilt.TabIndex = 13;
+            this.lbl_YrBuilt.TextChanged += new System.EventHandler(this.LoadRentOMeterData);
             // 
             // lbl_SqFt
             // 
@@ -311,29 +308,9 @@
             this.BrowserWindow.TabIndex = 8;
             this.BrowserWindow.Url = new System.Uri("", System.UriKind.Relative);
             // 
-            // btnLoadRentMeter
-            // 
-            this.btnLoadRentMeter.Location = new System.Drawing.Point(270, 11);
-            this.btnLoadRentMeter.Name = "btnLoadRentMeter";
-            this.btnLoadRentMeter.Size = new System.Drawing.Size(60, 50);
-            this.btnLoadRentMeter.TabIndex = 9;
-            this.btnLoadRentMeter.Text = "Load Rent Meter";
-            this.btnLoadRentMeter.UseVisualStyleBackColor = true;
-            this.btnLoadRentMeter.Click += new System.EventHandler(this.btnLoadRentMeter_Click);
-            // 
-            // btnGetRentDetails
-            // 
-            this.btnGetRentDetails.Location = new System.Drawing.Point(138, 70);
-            this.btnGetRentDetails.Name = "btnGetRentDetails";
-            this.btnGetRentDetails.Size = new System.Drawing.Size(60, 50);
-            this.btnGetRentDetails.TabIndex = 10;
-            this.btnGetRentDetails.Text = "Get Rent Details";
-            this.btnGetRentDetails.UseVisualStyleBackColor = true;
-            this.btnGetRentDetails.Click += new System.EventHandler(this.btnGetRentDetails_Click);
-            // 
             // btnCopyClipboard
             // 
-            this.btnCopyClipboard.Location = new System.Drawing.Point(270, 70);
+            this.btnCopyClipboard.Location = new System.Drawing.Point(204, 11);
             this.btnCopyClipboard.Name = "btnCopyClipboard";
             this.btnCopyClipboard.Size = new System.Drawing.Size(60, 50);
             this.btnCopyClipboard.TabIndex = 11;
@@ -341,37 +318,12 @@
             this.btnCopyClipboard.UseVisualStyleBackColor = true;
             this.btnCopyClipboard.Click += new System.EventHandler(this.btnCopyClipboard_Click);
             // 
-            // btnClear
-            // 
-            this.btnClear.Location = new System.Drawing.Point(17, 70);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(104, 50);
-            this.btnClear.TabIndex = 12;
-            this.btnClear.Text = "Clear Form";
-            this.btnClear.UseVisualStyleBackColor = true;
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
-            // 
-            // btnLoadTaxRecord
-            // 
-            this.btnLoadTaxRecord.Enabled = false;
-            this.btnLoadTaxRecord.Location = new System.Drawing.Point(204, 70);
-            this.btnLoadTaxRecord.Name = "btnLoadTaxRecord";
-            this.btnLoadTaxRecord.Size = new System.Drawing.Size(60, 50);
-            this.btnLoadTaxRecord.TabIndex = 13;
-            this.btnLoadTaxRecord.Text = "Load Tax Record";
-            this.btnLoadTaxRecord.UseVisualStyleBackColor = true;
-            this.btnLoadTaxRecord.Click += new System.EventHandler(this.btnTaxRecord_Click);
-            // 
             // Foreclosure
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(981, 497);
-            this.Controls.Add(this.btnLoadTaxRecord);
-            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnCopyClipboard);
-            this.Controls.Add(this.btnGetRentDetails);
-            this.Controls.Add(this.btnLoadRentMeter);
             this.Controls.Add(this.BrowserWindow);
             this.Controls.Add(this.btnLoadCOJ);
             this.Controls.Add(this.panel_Results);
@@ -415,11 +367,7 @@
         private System.Windows.Forms.Label lbl_Max;
         private System.Windows.Forms.Label lbl_Min;
         private System.Windows.Forms.Label lbl_Rge2;
-        private System.Windows.Forms.Button btnLoadRentMeter;
-        private System.Windows.Forms.Button btnGetRentDetails;
         private System.Windows.Forms.Button btnCopyClipboard;
-        private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.Button btnLoadTaxRecord;
     }
 }
 
