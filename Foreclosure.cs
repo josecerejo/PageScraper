@@ -19,12 +19,15 @@ namespace ForeclosureDataRetriever
         public HtmlElementCollection Table { get; private set; }
 
         private COJScraper COJ;
+        private RentOMeterScraper ROM;
 
         public Foreclosure()
         {
             InitializeComponent();
             RE_Number = "1545031066";
             COJ = new COJScraper();
+            ROM = new RentOMeterScraper();
+
                 //http://fl-duval-taxcollector.governmax.com
             TableData = new List<string>();
         }
@@ -44,12 +47,7 @@ namespace ForeclosureDataRetriever
 
             BrowserWindow.Navigate(new Uri(COJ.RootURL + RE_Number));
             BrowserWindow.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(ScrapeCOJAfterLoading);
-        }
 
-        private void LoadRentOMeterPage(object sender, EventArgs e)
-        {
-            BrowserWindow.Navigate(new Uri(RootLinks[2]));
-            BrowserWindow.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(RentMeterLinkLoaded);
         }
 
         #region COJ
@@ -62,6 +60,7 @@ namespace ForeclosureDataRetriever
             COJ.SetProperties(TableData);
             
             BrowserWindow.DocumentCompleted -= new WebBrowserDocumentCompletedEventHandler(ScrapeCOJAfterLoading);
+            LoadRentOMeterPage();
         }
 
         private void ScrapeNameAndAddress()
@@ -98,6 +97,12 @@ namespace ForeclosureDataRetriever
         #endregion
 
         #region RentOMeter
+        private void LoadRentOMeterPage()
+        {
+            BrowserWindow.Navigate(new Uri(ROM.RootURL));
+            BrowserWindow.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(RentMeterLinkLoaded);
+        }
+
         private void RentMeterLinkLoaded(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             if (e.Url.AbsolutePath != (sender as WebBrowser).Url.AbsolutePath)
@@ -106,25 +111,26 @@ namespace ForeclosureDataRetriever
             }
 
             BrowserWindow.Document.GetElementById("address_field").GotFocus +=
-                new HtmlElementEventHandler(SetElementData);
+                new HtmlElementEventHandler(SetFormData);
 
             BrowserWindow.DocumentCompleted -= 
                 new WebBrowserDocumentCompletedEventHandler(RentMeterLinkLoaded);
             }
 
-        private void SetElementData(object sender, HtmlElementEventArgs e)
+        private void SetFormData(object sender, HtmlElementEventArgs e)
         {
-            BrowserWindow.Document.GetElementById("address_field").InnerText = lbl_Address.Text + " 32216";
+            BrowserWindow.Document.GetElementById("address_field").InnerText = COJ.Address + " 32216";
             BrowserWindow.Document.GetElementById("latitude").InnerText = "30.269263";
             BrowserWindow.Document.GetElementById("longitude").InnerText = "-81.57560539999997";
-            BrowserWindow.Document.GetElementById("beds").SetAttribute("value", lbl_Bed.Text);
+            //UPDATE AFTER FIXING THE REGULAR EXPRESSION
+            BrowserWindow.Document.GetElementById("beds").SetAttribute("value", "3");
             
-            SubmitFormData();
+            SubmitForm();
 
             BrowserWindow.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(ScrapeRentDetails);
         }
 
-        private void SubmitFormData()
+        private void SubmitForm()
         {
             HtmlElement form = BrowserWindow.Document.GetElementById("search_form");
 
@@ -134,13 +140,12 @@ namespace ForeclosureDataRetriever
             }
 
             BrowserWindow.Document.GetElementById("address_field").GotFocus -=
-                new HtmlElementEventHandler(SetElementData);
+                new HtmlElementEventHandler(SetFormData);
         }
 
         private void ScrapeRentDetails(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            RentOMeterScraper RentDetails = new RentOMeterScraper(BrowserWindow.Url.AbsoluteUri);
-            DisplayRentDetails(RentDetails);
+            ROM.ScrapePage(BrowserWindow.Url.AbsoluteUri);
             BrowserWindow.DocumentCompleted -= new WebBrowserDocumentCompletedEventHandler(ScrapeRentDetails);
         }
         #endregion

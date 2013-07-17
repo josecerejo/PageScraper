@@ -151,7 +151,6 @@
             this.lbl_YrBuilt.Name = "lbl_YrBuilt";
             this.lbl_YrBuilt.Size = new System.Drawing.Size(0, 13);
             this.lbl_YrBuilt.TabIndex = 13;
-            this.lbl_YrBuilt.TextChanged += new System.EventHandler(this.LoadRentOMeterPage);
             // 
             // lbl_SqFt
             // 

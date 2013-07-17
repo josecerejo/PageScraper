@@ -35,6 +35,8 @@ namespace ForeclosureDataRetriever
             SqFt = list[19];
             Bedrooms = list[24];
             Bathrooms = list[26];
+            //Bedrooms = Regex.Match(list[24], @"\d\.[1-9]+").Value;
+            //Bathrooms = Regex.Match(list[26], @"\d\.[1-9]+").Value;
         }
     }
 }

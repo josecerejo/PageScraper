@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-//using System.Linq;
 using System.Text;
-//using System.Threading.Tasks;
-//using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Net;
 using System.IO;
@@ -13,8 +11,9 @@ namespace ForeclosureDataRetriever
     public class RentOMeterScraper
     {
         #region private strings
-        protected string RootURL;
-        protected string URLData;
+        public string RootURL {get; private set;}
+        private string ActualURL { get; set; }
+        private string URLData;
 
         private string Min;
         private string Max;
@@ -22,20 +21,23 @@ namespace ForeclosureDataRetriever
         private string HighPricedRange;
         #endregion
 
-        public RentOMeterScraper(string url)
+        public RentOMeterScraper()
         {
-            RootURL = url;
+            RootURL = "https://www.rentometer.com/";
         }
 
-        public virtual void ScrapePage()
+        public virtual void ScrapePage(string url)
         {
+            ActualURL = url;
             RetrieveURLData();
+            SetStringProperties();
+            ParseStrings();
         }
 
         private void RetrieveURLData()
         {
             WebResponse objResponse;
-            WebRequest objRequest = System.Net.HttpWebRequest.Create(RootURL);
+            WebRequest objRequest = System.Net.HttpWebRequest.Create(ActualURL);
 
             objResponse = objRequest.GetResponse();
 
@@ -46,8 +48,20 @@ namespace ForeclosureDataRetriever
             }
         }
 
-        public virtual void SetProperties()
+        public void SetStringProperties()
         {
+            Min = Regex.Match(URLData, @"min: \d+").Value;
+            Max = Regex.Match(URLData, @"max: \d+").Value;
+            ModerateRange = Regex.Match(URLData, @"greenTo: \d+").Value;
+            HighPricedRange = Regex.Match(URLData, @"redFrom: \d+").Value;
+        }
+
+        public void ParseStrings()
+        {
+            Min = Regex.Match(Min, @"\d+").Value;
+            Max = Regex.Match(Max, @"\d+").Value;
+            ModerateRange = Regex.Match(ModerateRange, @"\d+").Value;
+            HighPricedRange = Regex.Match(HighPricedRange, @"\d+").Value;
         }
     }
 }
