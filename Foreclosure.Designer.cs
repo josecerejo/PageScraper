@@ -118,6 +118,7 @@
             this.lbl_Median.Name = "lbl_Median";
             this.lbl_Median.Size = new System.Drawing.Size(0, 13);
             this.lbl_Median.TabIndex = 18;
+            this.lbl_Median.TextChanged += new System.EventHandler(this.LoadAppraiserPage);
             // 
             // lbl_Max
             // 

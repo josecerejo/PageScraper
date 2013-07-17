@@ -42,7 +42,6 @@ namespace ForeclosureDataRetriever
 
         public virtual void SetStringProperties()
         {
-
         }
 
         public virtual void ParseStrings()

@@ -13,27 +13,15 @@ namespace ForeclosureDataRetriever
     public class COJScraper : Scraper
     {
         #region private strings
-        private string Bedrooms;
-        private string Bathrooms;
-        private string SqFt;
-        private string YrBuilt;
-        #endregion
-
-        #region public integers
-        public double iBedrooms { get; private set; }
-        public double iBathrooms { get; private set; }
-        public int iSqFt { get; private set; }
-        public int iYrBuilt { get; private set; }
+        public string Bedrooms { get; private set; }
+        public string Bathrooms { get; private set; }
+        public string SqFt { get; private set; }
+        public string YrBuilt { get; private set; }
         #endregion
         
         public COJScraper(string url)
         {
             base.URL = url;
-
-            iBedrooms = 0;
-            iBathrooms = 0;
-            iSqFt = 0;
-            iYrBuilt = 0;
             ScrapePage();
         }
 
@@ -54,10 +42,10 @@ namespace ForeclosureDataRetriever
 
         public override void ParseStrings()
         {
-            iBedrooms = double.Parse(Regex.Match(Bedrooms, @"\d+\.\d+$").Value);
-            iBathrooms = double.Parse(Regex.Match(Bathrooms, @"\d+\.\d+$").Value);
-            iSqFt = int.Parse(Regex.Match(SqFt, @"\d+$").Value);
-            iYrBuilt = int.Parse(Regex.Match(YrBuilt, @"\d+").Value);
+            Bedrooms = Regex.Match(Bedrooms, @"\d+\.\d+$").Value;
+            Bathrooms = Regex.Match(Bathrooms, @"\d+\.\d+$").Value;
+            SqFt = Regex.Match(SqFt, @"\d+$").Value;
+            YrBuilt = Regex.Match(YrBuilt, @"\d+").Value;
         }
     }
 }

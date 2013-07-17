@@ -21,7 +21,7 @@ namespace ForeclosureDataRetriever
             InitializeComponent();
             RootLinks = new List<string>(){
                 "http://apps.coj.net/PAO_PROPERTYSEARCH/Basic/Detail.aspx?RE=",
-                "http://apps.coj.net/pao_propertySearch/Leaving.aspx?Destination=PTR&RE=",
+                "http://fl-duval-taxcollector.governmax.com",
                 "https://www.rentometer.com/"};
         }
 
@@ -93,10 +93,10 @@ namespace ForeclosureDataRetriever
         private void DisplayHouseDetails(COJScraper details)
         {
             lbl_Address.Text = BrowserWindow.Document.GetElementById("ctl00_cphBody_lblPrimarySiteAddressLine1").InnerText;
-            lbl_Bed.Text = details.iBedrooms.ToString();
-            lbl_Bath.Text = details.iBathrooms.ToString();
-            lbl_SqFt.Text = details.iSqFt.ToString();
-            lbl_YrBuilt.Text = details.iYrBuilt.ToString();
+            lbl_Bed.Text = details.Bedrooms;
+            lbl_Bath.Text = details.Bathrooms;
+            lbl_SqFt.Text = details.SqFt;
+            lbl_YrBuilt.Text = details.YrBuilt;
         }
 
         private void ScrapeRentDetails(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -113,6 +113,18 @@ namespace ForeclosureDataRetriever
             lbl_Median.Text = details.iMedian.ToString();
             lbl_Rge1.Text = details.iModerateRange;
             lbl_Rge2.Text = details.iHighPricedRange;
+        }
+
+        private void LoadAppraiserPage(object sender, EventArgs e)
+        {
+            NavigateLink = RootLinks[1] + txtCOJURL.Text;
+            BrowserWindow.Navigate(new Uri(NavigateLink));
+            //BrowserWindow.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(AppraiserLinkLoaded);
+        }
+
+        private void AppraiserLinkLoaded(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+
         }
 
         private void btnCopyClipboard_Click(object sender, EventArgs e)
