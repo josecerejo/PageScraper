@@ -14,12 +14,12 @@ namespace ForeclosureDataRetriever
     {
         private List<string> RootLinks { get; set; }
         private string RE_Number { get; set; }
-        private string NavigateLink;
         public List<string> TableData { get; private set; }
         public HtmlElementCollection Table { get; private set; }
 
         private COJScraper COJ;
         private RentOMeterScraper ROM;
+        private TaxScraper TAX;
 
         public Foreclosure()
         {
@@ -27,8 +27,8 @@ namespace ForeclosureDataRetriever
             RE_Number = "1545031066";
             COJ = new COJScraper();
             ROM = new RentOMeterScraper();
+            TAX = new TaxScraper();
 
-                //http://fl-duval-taxcollector.governmax.com
             TableData = new List<string>();
         }
 
@@ -45,8 +45,10 @@ namespace ForeclosureDataRetriever
                 //send results to list
             //display results in results list box
 
-            BrowserWindow.Navigate(new Uri(COJ.RootURL + RE_Number));
-            BrowserWindow.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(ScrapeCOJAfterLoading);
+            LoadAppraiserPage();
+
+            //BrowserWindow.Navigate(new Uri(COJ.RootURL + RE_Number));
+            //BrowserWindow.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(ScrapeCOJAfterLoading);
 
         }
 
@@ -147,20 +149,28 @@ namespace ForeclosureDataRetriever
         {
             ROM.ScrapePage(BrowserWindow.Url.AbsoluteUri);
             BrowserWindow.DocumentCompleted -= new WebBrowserDocumentCompletedEventHandler(ScrapeRentDetails);
+            LoadAppraiserPage();
         }
         #endregion
 
         #region Appraiser
-        private void LoadAppraiserPage(object sender, EventArgs e)
+        private void LoadAppraiserPage()
         {
-            NavigateLink = RootLinks[1] + lstRE.Text[0].ToString();
-            BrowserWindow.Navigate(new Uri(NavigateLink));
-            //BrowserWindow.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(AppraiserLinkLoaded);
+            BrowserWindow.Navigate(new Uri(TAX.RootURL));
+            BrowserWindow.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(AppraiserLinkLoaded);
         }
 
         private void AppraiserLinkLoaded(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+            string sid = TAX.FindSID(BrowserWindow.DocumentText);
+            string one = "http://fl-duval-taxcollector.governmax.com/collectmax/collect30.asp?body=search_collect.asp%26account%3D";
+            //RE_Number
+            string two = "%26go%2Ex%3D1%26l%5Fnm%3Daccount&sid=";
+            string link = one + RE_Number + two + sid;
 
+            BrowserWindow.Navigate(new Uri(link));
+
+            BrowserWindow.DocumentCompleted -= new WebBrowserDocumentCompletedEventHandler(AppraiserLinkLoaded);
         }
         #endregion
 

@@ -54,6 +54,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScraperClasses\RentOMeterScraper.cs" />
+    <Compile Include="ScraperClasses\TaxScraper.cs" />
     <EmbeddedResource Include="Foreclosure.resx">
       <DependentUpon>Foreclosure.cs</DependentUpon>
     </EmbeddedResource>
