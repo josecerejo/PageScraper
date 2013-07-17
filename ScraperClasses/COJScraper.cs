@@ -10,42 +10,31 @@ using System.IO;
 
 namespace ForeclosureDataRetriever
 {
-    public class COJScraper : Scraper
+    public class COJScraper
     {
         #region private strings
+        public string Name { get; private set; }
+        public string Address { get; private set; }
         public string Bedrooms { get; private set; }
         public string Bathrooms { get; private set; }
         public string SqFt { get; private set; }
         public string YrBuilt { get; private set; }
+        public string RootURL { get; private set; }
         #endregion
         
-        public COJScraper(string url)
+        public COJScraper()
         {
-            base.URL = url;
-            ScrapePage();
+            RootURL = "http://apps.coj.net/PAO_PROPERTYSEARCH/Basic/Detail.aspx?RE=";
         }
 
-        public override void ScrapePage()
+        public void SetProperties(List<string> list)
         {
-            base.ScrapePage();
-            SetStringProperties();
-            ParseStrings();
-        }
-
-        public override void SetStringProperties()
-        {
-            Bedrooms = Regex.Match(base.URLData, @"Bedrooms\D+\d+\.\d+").Value;
-            Bathrooms = Regex.Match(base.URLData, @"Baths\D+\d+\.\d+").Value;
-            SqFt = Regex.Match(base.URLData, @"Total\D{9}\d+\D+\d+").Value;
-            YrBuilt = Regex.Match(base.URLData, @"YearBuilt\D+\d{4}").Value;
-        }
-
-        public override void ParseStrings()
-        {
-            Bedrooms = Regex.Match(Bedrooms, @"\d+\.\d+$").Value;
-            Bathrooms = Regex.Match(Bathrooms, @"\d+\.\d+$").Value;
-            SqFt = Regex.Match(SqFt, @"\d+$").Value;
-            YrBuilt = Regex.Match(YrBuilt, @"\d+").Value;
+            Name = list[0];
+            Address = list[1];
+            YrBuilt = list[3];
+            SqFt = list[19];
+            Bedrooms = list[24];
+            Bathrooms = list[26];
         }
     }
 }

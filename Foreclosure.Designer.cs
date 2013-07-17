@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.lblCOJ = new System.Windows.Forms.Label();
-            this.txtCOJURL = new System.Windows.Forms.TextBox();
             this.panel_Results = new System.Windows.Forms.Panel();
             this.lbl_Rge1 = new System.Windows.Forms.Label();
             this.lbl_Median = new System.Windows.Forms.Label();
@@ -54,6 +53,7 @@
             this.btnStart = new System.Windows.Forms.Button();
             this.BrowserWindow = new System.Windows.Forms.WebBrowser();
             this.btnCopyClipboard = new System.Windows.Forms.Button();
+            this.lstRE = new System.Windows.Forms.ListBox();
             this.panel_Results.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,15 +65,6 @@
             this.lblCOJ.Size = new System.Drawing.Size(55, 13);
             this.lblCOJ.TabIndex = 1;
             this.lblCOJ.Text = "COJ RE#:";
-            // 
-            // txtCOJURL
-            // 
-            this.txtCOJURL.Location = new System.Drawing.Point(17, 41);
-            this.txtCOJURL.MaxLength = 10;
-            this.txtCOJURL.Name = "txtCOJURL";
-            this.txtCOJURL.Size = new System.Drawing.Size(104, 20);
-            this.txtCOJURL.TabIndex = 2;
-            this.txtCOJURL.Text = "1451430140";
             // 
             // panel_Results
             // 
@@ -97,7 +88,7 @@
             this.panel_Results.Controls.Add(this.lblBed);
             this.panel_Results.Controls.Add(this.lblMax);
             this.panel_Results.Controls.Add(this.lblMin);
-            this.panel_Results.Location = new System.Drawing.Point(17, 132);
+            this.panel_Results.Location = new System.Drawing.Point(12, 271);
             this.panel_Results.Name = "panel_Results";
             this.panel_Results.Size = new System.Drawing.Size(379, 114);
             this.panel_Results.TabIndex = 4;
@@ -319,16 +310,24 @@
             this.btnCopyClipboard.UseVisualStyleBackColor = true;
             this.btnCopyClipboard.Click += new System.EventHandler(this.btnCopyClipboard_Click);
             // 
+            // lstRE
+            // 
+            this.lstRE.FormattingEnabled = true;
+            this.lstRE.Location = new System.Drawing.Point(12, 39);
+            this.lstRE.Name = "lstRE";
+            this.lstRE.Size = new System.Drawing.Size(76, 199);
+            this.lstRE.TabIndex = 12;
+            // 
             // Foreclosure
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(981, 497);
+            this.Controls.Add(this.lstRE);
             this.Controls.Add(this.btnCopyClipboard);
             this.Controls.Add(this.BrowserWindow);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.panel_Results);
-            this.Controls.Add(this.txtCOJURL);
             this.Controls.Add(this.lblCOJ);
             this.Name = "Foreclosure";
             this.Text = "Foreclosure Web Scraper";
@@ -344,7 +343,6 @@
         #endregion
 
         private System.Windows.Forms.Label lblCOJ;
-        private System.Windows.Forms.TextBox txtCOJURL;
         private System.Windows.Forms.Panel panel_Results;
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.Label lblSqFt;
@@ -369,6 +367,7 @@
         private System.Windows.Forms.Label lbl_Min;
         private System.Windows.Forms.Label lbl_Rge2;
         private System.Windows.Forms.Button btnCopyClipboard;
+        private System.Windows.Forms.ListBox lstRE;
     }
 }
 
