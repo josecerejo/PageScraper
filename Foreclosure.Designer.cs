@@ -311,6 +311,8 @@
             // lstRE
             // 
             this.lstRE.FormattingEnabled = true;
+            this.lstRE.Items.AddRange(new object[] {
+            "1395030000"});
             this.lstRE.Location = new System.Drawing.Point(12, 39);
             this.lstRE.Name = "lstRE";
             this.lstRE.Size = new System.Drawing.Size(76, 199);

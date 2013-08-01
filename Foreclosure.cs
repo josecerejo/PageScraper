@@ -12,24 +12,25 @@ namespace ForeclosureDataRetriever
 {
     public partial class Foreclosure : Form
     {
-        private List<string> RootLinks { get; set; }
+        #region properties
+        //create class and object to hold various properties
         private string RE_Number { get; set; }
-        public List<string> TableData { get; private set; }
-        public HtmlElementCollection Table { get; private set; }
 
+        //create object to hold all scraper objects,
+        //  and iterate through each
         private COJScraper COJ;
         private RentOMeterScraper ROM;
         private TaxScraper TAX;
+        #endregion
 
         public Foreclosure()
         {
+            //evaluate which objects need inital values
             InitializeComponent();
             RE_Number = "1545031066";
             COJ = new COJScraper();
             ROM = new RentOMeterScraper();
             TAX = new TaxScraper();
-
-            TableData = new List<string>();
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -45,56 +46,16 @@ namespace ForeclosureDataRetriever
                 //send results to list
             //display results in results list box
 
-            LoadAppraiserPage();
-
-            //BrowserWindow.Navigate(new Uri(COJ.RootURL + RE_Number));
-            //BrowserWindow.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(ScrapeCOJAfterLoading);
-
+            BrowserWindow.Navigate(new Uri(COJ.RootURL + RE_Number));
+            BrowserWindow.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(ScrapeCOJAfterLoading);
         }
 
         #region COJ
         private void ScrapeCOJAfterLoading(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            ScrapeNameAndAddress();
-            ScrapeHTMLTables("buildingsDetailWrapper", "table", 0);
-            ScrapeHTMLTables("buildingsDetailWrapper", "table", 1);
-            ScrapeHTMLTables("buildingsDetailWrapper", "table", 3);
-            COJ.SetProperties(TableData);
+            COJ.ScrapePage(BrowserWindow.Document);
             
             BrowserWindow.DocumentCompleted -= new WebBrowserDocumentCompletedEventHandler(ScrapeCOJAfterLoading);
-            LoadRentOMeterPage();
-        }
-
-        private void ScrapeNameAndAddress()
-        {
-            TableData.Add(BrowserWindow.Document.GetElementById("ctl00_cphBody_repeaterOwnerInformation_ctl00_lblOwnerName").InnerText);
-            TableData.Add(BrowserWindow.Document.GetElementById("ctl00_cphBody_lblHeaderPropertyAddress").InnerText);
-        }
-
-        private void ScrapeHTMLTables(string _id, string _tagname, int _index)
-        {
-            Table = BrowserWindow.Document.GetElementById(_id).GetElementsByTagName(_tagname);
-            try
-            {
-                if (Table.Count <= 0) return;
-                HtmlElementCollection rows = Table[_index].GetElementsByTagName("td");
-                foreach (HtmlElement row in rows)
-                {
-                    AddToTableData(row.InnerText);
-                }
-            }
-            catch (ArgumentOutOfRangeException exc)
-            {
-                TableData.Add(exc.Message);
-            }
-        }
-
-        private void AddToTableData(string scraped_text)
-        {
-            if (!String.IsNullOrEmpty(scraped_text) && !String.IsNullOrWhiteSpace(scraped_text))
-            {
-                TableData.Add(scraped_text);
-            }
         }
         #endregion
 
@@ -121,7 +82,7 @@ namespace ForeclosureDataRetriever
 
         private void SetFormData(object sender, HtmlElementEventArgs e)
         {
-            BrowserWindow.Document.GetElementById("address_field").InnerText = COJ.Address + " 32216";
+            BrowserWindow.Document.GetElementById("address_field").InnerText = COJ.TableData[1] + " 32216";
             BrowserWindow.Document.GetElementById("latitude").InnerText = "30.269263";
             BrowserWindow.Document.GetElementById("longitude").InnerText = "-81.57560539999997";
             //UPDATE AFTER FIXING THE REGULAR EXPRESSION
@@ -171,17 +132,23 @@ namespace ForeclosureDataRetriever
             BrowserWindow.Navigate(new Uri(link));
 
             BrowserWindow.DocumentCompleted -= new WebBrowserDocumentCompletedEventHandler(AppraiserLinkLoaded);
+            //ScrapeAppraiser();
         }
+
+        //private void ScrapeAppraiser()
+        //{
+        //    ScrapeHTMLTablesNoID("table", 2);
+        //}
         #endregion
 
-        #region DisplayCurrentDetails
+        #region supporting methods
         private void DisplayHouseDetails(COJScraper details)
         {
             lbl_Address.Text = BrowserWindow.Document.GetElementById("ctl00_cphBody_lblPrimarySiteAddressLine1").InnerText;
-            lbl_Bed.Text = details.Bedrooms;
-            lbl_Bath.Text = details.Bathrooms;
-            lbl_SqFt.Text = details.SqFt;
-            lbl_YrBuilt.Text = details.YrBuilt;
+            lbl_Bed.Text = details.TableData[0];
+            lbl_Bath.Text = details.TableData[0];
+            lbl_SqFt.Text = details.TableData[0];
+            lbl_YrBuilt.Text = details.TableData[0];
         }
 
         private void DisplayRentDetails(RentOMeterScraper details)
